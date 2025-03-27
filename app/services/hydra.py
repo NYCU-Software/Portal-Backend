@@ -31,7 +31,6 @@ class HydraService:
         r.raise_for_status()
         return r.json()["redirect_to"]
 
-
     def reject_login_request(self, login_challenge, reason):
         data = {"error": "access_denied", "error_description": reason}
         r = requests.put(
@@ -61,7 +60,6 @@ class HydraService:
         )
         r.raise_for_status()
         return r.json()["redirect_to"]
-
 
     def reject_consent_request(self, consent_challenge, reason):
         data = {"error": "access_denied", "error_description": reason}
@@ -94,5 +92,40 @@ class HydraService:
             headers={"Authorization": f"Bearer {access_token}"},
             timeout=self.timeout,
         )
+        r.raise_for_status()
+        return r.json()
+
+    def create_client(self, data):
+        url = f"{self.admin_url}/admin/clients"
+        headers = {"Content-Type": "application/json"}
+        r = requests.post(url, json=data, headers=headers, timeout=self.timeout)
+        r.raise_for_status()
+        return r.json()
+
+    def update_client(self, client_id, data):
+        url = f"{self.admin_url}/admin/clients/{client_id}"
+        headers = {"Content-Type": "application/json"}
+        r = requests.put(url, json=data, headers=headers, timeout=self.timeout)
+        r.raise_for_status()
+        return r.json()
+
+    def get_client(self, client_id):
+        url = f"{self.admin_url}/admin/clients/{client_id}"
+        headers = {"Content-Type": "application/json"}
+        r = requests.get(url, headers=headers, timeout=self.timeout)
+        r.raise_for_status()
+        return r.json()
+
+    def delete_client(self, client_id):
+        url = f"{self.admin_url}/admin/clients/{client_id}"
+        headers = {"Content-Type": "application/json"}
+        r = requests.delete(url, headers=headers, timeout=self.timeout)
+        r.raise_for_status()
+        return r.json()
+
+    def get_clients(self):
+        url = f"{self.admin_url}/admin/clients"
+        headers = {"Content-Type": "application/json"}
+        r = requests.get(url, headers=headers, timeout=self.timeout)
         r.raise_for_status()
         return r.json()

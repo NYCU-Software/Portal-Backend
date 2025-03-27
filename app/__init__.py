@@ -14,8 +14,9 @@ def create_app(config_name):
     app.register_blueprint(user_bp)
     app.register_blueprint(authorization_bp)
     app.register_blueprint(client_bp)
-    app.hydra_service = HydraService(app.config.get("HYDRA_PUBLIC"),
-                                     app.config.get("HYDRA_ADMIN"))
+    app.hydra_service = HydraService(
+        app.config.get("HYDRA_PUBLIC"), app.config.get("HYDRA_ADMIN")
+    )
     app.kratos_service = KratosService(app.config.get("KRATOS_URL"))
 
     return app

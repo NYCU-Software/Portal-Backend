@@ -3,6 +3,7 @@ from .utils import authenticate
 
 user_bp = Blueprint("user", __name__)
 
+
 @user_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json() or {}
@@ -20,14 +21,12 @@ def login():
 
     if login_challenge:
         session_info = current_app.kratos_service.get_session_from_token(session_token)
-        
+
         if not session_info:
             return jsonify({"error": "Session retrieval failed"}), 401
 
         user = session_info.identity.traits
-        user = {
-            'subject': session_info.identity.id
-        }
+        user = {"subject": session_info.identity.id}
         url = current_app.hydra_service.accept_login_request(login_challenge, user)
         return jsonify({"token": session_token, "url": url})
 
@@ -41,6 +40,7 @@ def whoami():
         return g.user
     abort(401)
 
+
 @user_bp.route("/logout")
 @authenticate
 def logout():
@@ -48,6 +48,7 @@ def logout():
         current_app.kratos_service.logout(g.token)
         return {"msg": "ok"}
     abort(401)
+
 
 @user_bp.route("/authorize", methods=["POST"])
 @authenticate
@@ -67,4 +68,3 @@ def authorize():
     }
     url = current_app.hydra_service.accept_login_request(login_challenge, user)
     return jsonify({"token": g.token, "url": url})
-
