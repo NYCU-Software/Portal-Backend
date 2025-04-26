@@ -1,3 +1,2 @@
-from .authentication_routes import *
-from .authorization_routes import *
-from .client_routes import *
+from .user_routes import user_bp
+

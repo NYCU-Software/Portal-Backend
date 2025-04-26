@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-from .controllers import user_bp, authorization_bp, client_bp
+from .controllers import user_bp
 from .services import HydraService, KratosService
 
 
@@ -12,8 +12,6 @@ def create_app(config_name):
         CORS(app)
 
     app.register_blueprint(user_bp)
-    app.register_blueprint(authorization_bp)
-    app.register_blueprint(client_bp)
     app.hydra_service = HydraService(
         app.config.get("HYDRA_PUBLIC"), app.config.get("HYDRA_ADMIN")
     )

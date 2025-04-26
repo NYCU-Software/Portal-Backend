@@ -121,7 +121,6 @@ class HydraService:
         headers = {"Content-Type": "application/json"}
         r = requests.delete(url, headers=headers, timeout=self.timeout)
         r.raise_for_status()
-        return r.json()
 
     def get_clients(self):
         url = f"{self.admin_url}/admin/clients"
